@@ -6,6 +6,7 @@ all operations work correctly and error handling is implemented properly.
 """
 
 import calculator
+from calculator import Calculator
 
 
 def test_add():
@@ -73,11 +74,86 @@ def test_invalid_operation():
         print("✓ Invalid operation error handling test passed")
 
 
+def test_class_based_structure():
+    """Test the class-based Calculator structure."""
+    calc = Calculator()
+
+    # Test all operations work with class instance
+    assert calc.add(5, 3) == 8
+    assert calc.subtract(10, 4) == 6
+    assert calc.multiply(3, 7) == 21
+    assert calc.divide(15, 3) == 5.0
+    assert calc.calculate('add', 2, 3) == 5
+    print("✓ Class-based structure tests passed")
+
+
+def test_type_validation():
+    """Test type validation for Calculator methods."""
+    calc = Calculator()
+
+    # Test invalid types for add
+    try:
+        calc.add("5", 3)
+        assert False, "Expected TypeError for string input"
+    except TypeError as e:
+        assert "must be a number" in str(e)
+
+    # Test invalid types for subtract
+    try:
+        calc.subtract(5, [3])
+        assert False, "Expected TypeError for list input"
+    except TypeError as e:
+        assert "must be a number" in str(e)
+
+    # Test invalid types for multiply
+    try:
+        calc.multiply(None, 3)
+        assert False, "Expected TypeError for None input"
+    except TypeError as e:
+        assert "must be a number" in str(e)
+
+    # Test invalid types for divide
+    try:
+        calc.divide(5, {"key": "value"})
+        assert False, "Expected TypeError for dict input"
+    except TypeError as e:
+        assert "must be a number" in str(e)
+
+    # Test invalid operation type in calculate
+    try:
+        calc.calculate(123, 5, 3)
+        assert False, "Expected TypeError for non-string operation"
+    except TypeError as e:
+        assert "must be a string" in str(e)
+
+    print("✓ Type validation tests passed")
+
+
+def test_backward_compatibility():
+    """Test that function-based API still works for backward compatibility."""
+    # These should work the same as before
+    assert calculator.add(5, 3) == 8
+    assert calculator.subtract(10, 4) == 6
+    assert calculator.multiply(3, 7) == 21
+    assert calculator.divide(15, 3) == 5.0
+    assert calculator.calculate('add', 2, 3) == 5
+
+    # Type validation should work in function API too
+    try:
+        calculator.add("5", 3)
+        assert False, "Expected TypeError for string input"
+    except TypeError:
+        pass  # Expected
+
+    print("✓ Backward compatibility tests passed")
+
+
 def run_all_tests():
     """Run all tests."""
     print("Running Calculator Module Tests")
     print("=" * 35)
 
+    # Original function tests
     test_add()
     test_subtract()
     test_multiply()
@@ -85,6 +161,11 @@ def run_all_tests():
     test_divide_by_zero()
     test_calculate_function()
     test_invalid_operation()
+
+    # New class-based and validation tests
+    test_class_based_structure()
+    test_type_validation()
+    test_backward_compatibility()
 
     print("\n🎉 All tests passed successfully!")
 

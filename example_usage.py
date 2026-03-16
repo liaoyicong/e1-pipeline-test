@@ -1,10 +1,12 @@
 """
 Example usage of the calculator module.
 
-This file demonstrates how to use the calculator module in different ways.
+This file demonstrates how to use the calculator module in different ways,
+including the new class-based structure and type validation.
 """
 
 import calculator
+from calculator import Calculator
 
 def main():
     """Demonstrate calculator usage."""
@@ -56,6 +58,41 @@ def main():
     print("\n4. Working with decimal numbers:")
     print(f"3.14 + 2.86 = {calculator.add(3.14, 2.86)}")
     print(f"10.5 ÷ 2.1 = {calculator.divide(10.5, 2.1):.2f}")
+
+    # Class-based usage (new approach)
+    print("\n5. Using the Calculator class:")
+    calc = Calculator()
+    print(f"Using class instance:")
+    print(f"8 + 7 = {calc.add(8, 7)}")
+    print(f"20 - 6 = {calc.subtract(20, 6)}")
+    print(f"5 × 4 = {calc.multiply(5, 4)}")
+    print(f"18 ÷ 3 = {calc.divide(18, 3)}")
+    print(f"Generic method: {calc.calculate('add', 15, 25)}")
+
+    # Type validation examples
+    print("\n6. Type validation examples:")
+    calc = Calculator()
+
+    # Valid types
+    print(f"Integer + Float: {calc.add(5, 3.5)}")
+
+    # Invalid types (will raise errors)
+    print("Testing invalid input types:")
+
+    invalid_inputs = [
+        ("string + number", lambda: calc.add("5", 3)),
+        ("list + number", lambda: calc.subtract([1, 2], 3)),
+        ("None × number", lambda: calc.multiply(None, 4)),
+        ("dict ÷ number", lambda: calc.divide({"x": 1}, 2)),
+        ("non-string operation", lambda: calc.calculate(123, 5, 3))
+    ]
+
+    for description, operation in invalid_inputs:
+        try:
+            result = operation()
+            print(f"  {description}: Unexpected success - {result}")
+        except (TypeError, ValueError) as e:
+            print(f"  {description}: ✓ Caught expected error - {type(e).__name__}")
 
 if __name__ == "__main__":
     main()

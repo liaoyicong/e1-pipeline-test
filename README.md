@@ -8,10 +8,13 @@ This repository now includes a Python calculator module with basic arithmetic op
 ### Features
 
 - **Four basic operations**: addition, subtraction, multiplication, division
-- **Proper error handling**: Division by zero protection with descriptive error messages
-- **Well-documented**: Comprehensive docstrings and examples for all functions
+- **Class-based structure**: Clean, object-oriented design with Calculator class
+- **Type validation**: Comprehensive input validation with descriptive error messages
+- **Proper error handling**: Division by zero protection and invalid input handling
+- **Well-documented**: Comprehensive docstrings and examples for all methods
 - **Type flexible**: Works with both integers and floating-point numbers
-- **Clean API**: Individual functions for each operation plus a generic calculate function
+- **Backward compatible**: Function-based API still available for existing code
+- **Clean API**: Both class-based and function-based interfaces
 
 ### Files
 
@@ -21,6 +24,36 @@ This repository now includes a Python calculator module with basic arithmetic op
 
 ### Quick Usage
 
+#### Class-based approach (recommended):
+```python
+from calculator import Calculator
+
+# Create calculator instance
+calc = Calculator()
+
+# Basic operations
+result = calc.add(5, 3)        # 8
+result = calc.subtract(10, 4)  # 6
+result = calc.multiply(6, 7)   # 42
+result = calc.divide(15, 3)    # 5.0
+
+# Generic method
+result = calc.calculate('add', 5, 3)  # 8
+
+# Error handling
+try:
+    result = calc.divide(10, 0)
+except ZeroDivisionError as e:
+    print(f"Error: {e}")  # Error: Cannot divide by zero
+
+# Type validation
+try:
+    result = calc.add("5", 3)  # Will raise TypeError
+except TypeError as e:
+    print(f"Error: {e}")  # Error: Argument 1 must be a number
+```
+
+#### Function-based approach (backward compatibility):
 ```python
 import calculator
 
@@ -32,12 +65,6 @@ result = calculator.divide(15, 3)    # 5.0
 
 # Generic function
 result = calculator.calculate('add', 5, 3)  # 8
-
-# Error handling
-try:
-    result = calculator.divide(10, 0)
-except ZeroDivisionError as e:
-    print(f"Error: {e}")  # Error: Cannot divide by zero
 ```
 
 ### Running Tests
